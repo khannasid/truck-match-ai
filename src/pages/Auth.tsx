@@ -10,6 +10,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import {loginUser} from "@/api/api"; // Assuming you have an API module to handle login
 
 interface SignupForm {
   name: string;
@@ -56,7 +57,7 @@ const Auth = () => {
     navigate(data.role === "supplier" ? "/supplier-dashboard" : "/truck-owner-dashboard");
   };
 
-  const onLogin = (data: LoginForm) => {
+  const onLogin = async(data: LoginForm) => {
     // Mock login - in real app, this would call your API
     const mockUser = {
       id: "1",
@@ -64,14 +65,23 @@ const Auth = () => {
       role: data.email.includes("supplier") ? "supplier" : "truck-owner",
       name: "Demo User",
     };
-    
-    localStorage.setItem("user", JSON.stringify(mockUser));
-    
-    toast({
-      title: "Welcome back!",
-      description: "Successfully logged in",
-    });
-    
+    const user = await loginUser(data.email, data.password);
+    if(user){
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      toast({
+        title: "Welcome back!",
+        description: "Successfully logged in",
+      });
+    }
+    else {
+      toast({
+        title: "Login failed",
+        description: "Invalid email or password",
+        variant: "destructive",
+      });
+      return;
+    }
     navigate(mockUser.role === "supplier" ? "/supplier-dashboard" : "/truck-owner-dashboard");
   };
 

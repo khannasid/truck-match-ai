@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import {getTenders, createTender} from "../api/api.js"; // Assuming you have an API module to fetch tenders
 
 interface Tender {
   id: string;
@@ -67,9 +68,15 @@ const SupplierDashboard = () => {
       return;
     }
     setUser(parsedUser);
-
+    async function fetchTenders() {
+    await getTenders().then(data => {
+      setTenders(data);
+    }).catch(error => {
+      console.error("Failed to fetch tenders:", error)});
     // Load mock data
-    loadMockData();
+    // loadMockData();
+    }
+    fetchTenders();
   }, [navigate]);
 
   const loadMockData = () => {
@@ -141,7 +148,7 @@ const SupplierDashboard = () => {
     setTruckOwners(mockTruckOwners);
   };
 
-  const onSubmitTender = (data: Omit<Tender, "id" | "createdAt" | "status">) => {
+  const onSubmitTender = async(data: Omit<Tender, "id" | "createdAt" | "status">) => {
     const newTender: Tender = {
       ...data,
       id: Math.random().toString(36).substr(2, 9),
@@ -151,7 +158,11 @@ const SupplierDashboard = () => {
 
     setTenders(prev => [newTender, ...prev]);
     form.reset();
-    
+    await createTender(tenders).then(() => {
+      console.log("Tender created successfully");
+    }).catch(error => {
+      console.error("Failed to create tender:", error);
+    });
     toast({
       title: "Tender Posted Successfully!",
       description: "Your tender is now visible to truck owners",

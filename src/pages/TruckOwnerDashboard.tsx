@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import {getTrucks, addTruck} from "../api/api.js"; // Assuming you have an API module to fetch trucks
 
 interface TruckData {
   id: string;
@@ -63,7 +64,13 @@ const TruckOwnerDashboard = () => {
       return;
     }
     setUser(parsedUser);
-
+    getTrucks().then(data => {
+      setTrucks(data);
+    }).catch(error => {
+      console.error("Failed to fetch trucks:", error);
+    });
+    // Fetch tenders from API
+    // Assuming you have an API module to fetch tenders
     // Load mock data
     loadMockData();
   }, [navigate]);
@@ -124,7 +131,7 @@ const TruckOwnerDashboard = () => {
     setTenders(mockTenders);
   };
 
-  const onSubmitTruck = (data: Omit<TruckData, "id">) => {
+  const onSubmitTruck = async(data: Omit<TruckData, "id">) => {
     const newTruck: TruckData = {
       ...data,
       id: Math.random().toString(36).substr(2, 9),
@@ -133,7 +140,11 @@ const TruckOwnerDashboard = () => {
 
     setTrucks(prev => [newTruck, ...prev]);
     form.reset();
-    
+    await addTruck(newTruck).then(() => {
+      console.log("Truck added successfully");
+    }).catch(error => {
+      console.error("Failed to add truck:", error); 
+    });
     toast({
       title: "Truck Added Successfully!",
       description: "Your truck is now visible to suppliers",
