@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import {getTrucks, addTruck} from "../api/api.js"; // Assuming you have an API module to fetch trucks
+import {getTrucks, addTruck, getTenders} from "../api/api.js"; // Assuming you have an API module to fetch trucks
 
 interface TruckData {
   id: string;
@@ -72,7 +72,12 @@ const TruckOwnerDashboard = () => {
     // Fetch tenders from API
     // Assuming you have an API module to fetch tenders
     // Load mock data
-    loadMockData();
+    // loadMockData();
+    getTenders().then(data => {
+      setTenders(data);
+    }).catch(error => {
+      console.error("Failed to fetch tenders:", error);
+    });
   }, [navigate]);
 
   const loadMockData = () => {

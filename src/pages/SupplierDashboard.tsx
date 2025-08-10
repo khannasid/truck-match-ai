@@ -158,7 +158,7 @@ const SupplierDashboard = () => {
 
     setTenders(prev => [newTender, ...prev]);
     form.reset();
-    await createTender(tenders).then(() => {
+    await createTender(newTender).then(() => {
       console.log("Tender created successfully");
     }).catch(error => {
       console.error("Failed to create tender:", error);

@@ -10,7 +10,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import {loginUser} from "@/api/api"; // Assuming you have an API module to handle login
+import {loginUser, signupUser} from "@/api/api"; // Assuming you have an API module to handle login
 
 interface SignupForm {
   name: string;
@@ -41,13 +41,25 @@ const Auth = () => {
 
   const loginForm = useForm<LoginForm>();
 
-  const onSignup = (data: SignupForm) => {
+  const onSignup = async(data: SignupForm) => {
     // Mock signup - in real app, this would call your API
     localStorage.setItem("user", JSON.stringify({
       ...data,
       id: Math.random().toString(36).substr(2, 9),
     }));
     
+    await signupUser(data).then(() => {
+      // Assuming signupUser returns a promise that resolves on success
+    }).catch(error => {
+      console.error("Signup failed:", error);
+      toast({
+        title: "Signup failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      return;
+    });
+
     toast({
       title: "Account created successfully!",
       description: "Welcome to TruckMatch",

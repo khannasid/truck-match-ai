@@ -1,58 +1,50 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": "ee7c",
       "role": "supplier",
-      "email": "supplier1@mail.com",
-      "password": "hashedpw",
-      "name": "Supplier One"
+      "name": "siddhant khanna",
+      "email": "Khannasiddhant22@gmail.com",
+      "phone": "07388556723",
+      "password": "123456789"
     },
     {
-      "id": "2",
-      "role": "truck_owner",
-      "email": "owner1@mail.com",
-      "password": "hashedpw",
-      "name": "Truck Owner One"
+      "id": "9180",
+      "role": "truck-owner",
+      "name": "Sarthak",
+      "email": "sarthak@gmail.com",
+      "phone": "73556723",
+      "company": "KGS",
+      "password": "123456789"
     }
   ],
   "tenders": [
     {
-      "id": "1",
-      "supplierId": 1,
-      "fromLocation": "Delhi",
-      "toLocation": "Mumbai",
-      "truckType": "Refrigerated",
-      "goodsType": "Perishable",
-      "durationDays": 2,
-      "capacityRequired": 5,
-      "amountRange": "10,000-12,000"
-    },
-    {
-      "0": {
-        "id": "1",
-        "supplierId": 1,
-        "fromLocation": "Delhi",
-        "toLocation": "Mumbai",
-        "truckType": "Refrigerated",
-        "goodsType": "Perishable",
-        "durationDays": 2,
-        "capacityRequired": 5,
-        "amountRange": "10,000-12,000"
-      },
-      "id": "2e2b"
+      "id": "n3fxbqio7",
+      "title": "Electronic Delivery",
+      "truckType": "Open Body",
+      "description": "I want to transport Electronic",
+      "pickupLocation": "Delhi",
+      "deliveryLocation": "Pune",
+      "goodsType": "Electronic",
+      "weight": "5",
+      "duration": "10",
+      "budget": "30,000 - 50,000",
+      "createdAt": "2025-08-06",
+      "status": "active"
     }
   ],
   "trucks": [
     {
-      "id": "1",
-      "ownerId": 2,
-      "type": "Flatbed",
-      "capacity": 10,
+      "id": "38rhw61xq",
+      "registrationNumber": "UP-44-W-7333",
+      "type": "Open Body",
+      "capacity": "10",
       "currentLocation": "Delhi",
-      "driver": {
-        "name": "Ramesh",
-        "phone": "9876543210"
-      }
+      "driverName": "Suresh",
+      "driverPhone": "9878888888",
+      "available": true,
+      "specializations": []
     }
   ]
 }
